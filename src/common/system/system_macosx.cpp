@@ -102,7 +102,7 @@ std::string CSystemUtilsMacOSX::GetLangPath()
 
 std::string CSystemUtilsMacOSX::GetSaveDir()
 {
-#if PORTABLE_SAVES || DEV_BUILD
+#if defined(PORTABLE_SAVES) || DEV_BUILD
     // TODO: I have no idea if this actually works on Mac OS
     return "./saves";
 #else

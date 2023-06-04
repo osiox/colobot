@@ -1,0 +1,7 @@
+option('translations', type: 'boolean', value: true, description: 'Enable translations of help and level files')
+option('music', type: 'boolean', value: true, description: 'Enable music')
+option('music_flac', type: 'boolean', value: false, description: 'Download music in FLAC fomat and convert it to *.ogg locally, this lets you change music quality')
+option('music_quality', type : 'integer', min : -1, max : 10, value : 3, description: 'Music quality [-1(very low) - 10(very high), fractional values allowed]')
+option('install_data_dir', type : 'string',
+    description : 'Directory where data files should be installed. If not set, then data dir will be set under installation prefix.'
+)

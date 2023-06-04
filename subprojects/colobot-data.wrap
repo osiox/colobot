@@ -1,0 +1,6 @@
+[wrap-git]
+directory = colobot-data
+url = https://github.com/colobot/colobot-data.git
+revision = dev
+depth = 1
+patch_directory = colobot-data-patch

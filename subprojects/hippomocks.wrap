@@ -1,0 +1,9 @@
+[wrap-git]
+directory = hippomocks-10960d0
+url = https://github.com/dascandy/hippomocks.git
+revision = 10960d027b398444ec3ec6ce2487de3db0283ff8
+depth = 1
+patch_directory = hippomocks-patch
+
+[provide]
+hippomocks = hippomocks_dep
