@@ -1,0 +1,9 @@
+[wrap-file]
+directory = simpleini-4.19
+source_url = https://github.com/brofield/simpleini/archive/refs/tags/v4.19.zip
+source_filename = simpleini-v4.19.zip
+source_hash = ee3a35f849649f3da7bdde184558343171a9d1ca07fc3885bb85c7125204832d
+patch_directory = simpleini-patch
+
+[provide]
+simpleini = simpleini_dep

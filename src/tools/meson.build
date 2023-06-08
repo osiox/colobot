@@ -13,5 +13,5 @@ executable(
     'convert_model',
     _src,
     include_directories: '..',
-    dependencies: [ boost_dep ]
+    dependencies: [ int_libcolobot_core_dep ]
 )

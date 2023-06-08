@@ -21,9 +21,9 @@ version_h = configure_file(
     output: 'version.h',
     format: 'cmake@',
     configuration: {
-        'COLOBOT_VERSION_FULL': 'TODO',
-        'COLOBOT_VERSION_DISPLAY': 'TODO',
-        'BUILD_NUMBER': '1234', # TODO
+        'COLOBOT_VERSION_FULL': COLOBOT_VERSION_FULL,
+        'COLOBOT_VERSION_DISPLAY': COLOBOT_VERSION_DISPLAY,
+        'BUILD_NUMBER': BUILD_NUMBER,
         'OFFICIAL_COLOBOT_BUILD': false # TODO
     }
 )

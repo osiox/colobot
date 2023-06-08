@@ -155,10 +155,14 @@ _src = [
     'stdlib/stdlib_public.h'
 ]
 
+_deps = [
+    int_libcolobot_core_dep,
+]
+
 _libcbot = library(
     'CBot',
     sources: _src,
-    dependencies: [ boost_dep ],
+    dependencies: _deps,
     implicit_include_directories: false,
     include_directories: '..',
     # TODO Do not install if static ?
@@ -167,9 +171,9 @@ _libcbot = library(
 )
 
 int_libcbot_dep = declare_dependency(
+    dependencies: _deps,
     link_with: _libcbot,
     include_directories: '..',
-    dependencies: [ boost_dep ]
 )
 
 # TODO Install!

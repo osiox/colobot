@@ -1,3 +1,4 @@
+subdir('core')
 subdir('CBot')
 
 # TODO Optional ?
@@ -71,8 +72,6 @@ _src = [
     'common/settings.cpp',
     'common/settings.h',
     'common/singleton.h',
-    'common/stringutils.cpp',
-    'common/stringutils.h',
     'common/timeutils.cpp',
     'common/timeutils.h',
     'common/thread/worker_thread.h',
@@ -461,6 +460,7 @@ _src = [
 ]
 
 _deps = [
+    int_libcolobot_core_dep,
     int_libcbot_dep,
 
     opengl_dep,
@@ -469,9 +469,9 @@ _deps = [
     sdl2_ttf_dep,
     png_dep,
     physfs_dep,
-    boost_dep,
     glew_dep,
     sndfile_dep,
+    simpleini_dep,
     localename_dep,
 ]
 
