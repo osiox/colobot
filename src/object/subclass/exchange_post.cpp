@@ -19,6 +19,8 @@
 
 #include "object/subclass/exchange_post.h"
 
+#include "core/stringutils.h"
+
 #include "common/regex_utils.h"
 
 #include "graphics/engine/engine.h"
@@ -37,8 +39,6 @@
 #include "ui/controls/interface.h"
 #include "ui/controls/list.h"
 #include "ui/controls/window.h"
-
-#include <boost/lexical_cast.hpp>
 
 
 CExchangePost::CExchangePost(int id)
@@ -144,7 +144,7 @@ const std::vector<ExchangePostInfo>& CExchangePost::GetInfoList()
     return m_infoList;
 }
 
-boost::optional<float> CExchangePost::GetInfoValue(const std::string& name)
+std::optional<float> CExchangePost::GetInfoValue(const std::string& name)
 {
     for (auto& info : m_infoList)
     {
@@ -153,7 +153,7 @@ boost::optional<float> CExchangePost::GetInfoValue(const std::string& name)
             return info.value;
         }
     }
-    return boost::none;
+    return std::nullopt;
 }
 
 bool CExchangePost::HasInfo(const std::string& name)
@@ -202,8 +202,8 @@ void CExchangePost::Write(CLevelParserLine* line)
         ++i;
         if (!info.name.empty())
         {
-            auto key = "info" + boost::lexical_cast<std::string>(i);
-            auto paramValue = info.name + "=" + boost::lexical_cast<std::string>(info.value);
+            auto key = "info" + StrUtils::ToString(i);
+            auto paramValue = info.name + "=" + StrUtils::ToString(info.value);
             line->AddParam(key, std::make_unique<CLevelParserParam>(paramValue));
         }
     }
@@ -220,7 +220,7 @@ void CExchangePost::ReadInfo(CLevelParserLine* line)
 {
     for (int i = 1; i <= GetMaximumInfoListSize(); i++)
     {
-        std::string op = std::string("info") + boost::lexical_cast<std::string>(i);
+        std::string op = std::string("info") + StrUtils::ToString(i);
 
         if (!line->GetParam(op)->IsDefined())
             break;
@@ -233,7 +233,7 @@ void CExchangePost::ReadInfo(CLevelParserLine* line)
         {
             auto matches = RegexUtils::AssertRegexMatch(text, "([^=]+)=(.*)");
             info.name = matches[1];
-            info.value = boost::lexical_cast<float>(matches[2]);
+            info.value = StrUtils::FromString<float>(matches[2]);
         }
         catch (...)
         {

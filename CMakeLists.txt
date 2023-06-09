@@ -214,9 +214,6 @@ endif()
 # These are specific to GCC/MinGW/clang; for other compilers, change as necessary
 # The flags are used throughout src/ and test/ subdirs
 
-# Special flags for boost
-add_definitions(-DBOOST_NO_SCOPED_ENUMS -DBOOST_NO_CXX11_SCOPED_ENUMS)
-
 set(COLOBOT_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${NORMAL_CXX_FLAGS}")
 set(COLOBOT_CXX_FLAGS_RELEASE "${RELEASE_CXX_FLAGS}")
 set(COLOBOT_CXX_FLAGS_DEBUG "${DEBUG_CXX_FLAGS}")
@@ -268,8 +265,7 @@ option(USE_STATIC_RUNTIME "Link the runtime library statically" OFF)
 # CBot can also be a static library
 option(CBOT_STATIC "Build CBot as static libary" OFF)
 
-# This is useful in case you want to use static boost libraries
-option(BOOST_STATIC "Link with static boost libraries" OFF)
+option(COLOBOT_CORE_STATIC "Build colobot_core as static libary" OFF)
 
 # This is useful on Windows, if linking against standard GLEW dll fails
 option(GLEW_STATIC "Link statically with GLEW" OFF)
@@ -330,13 +326,6 @@ if(NOT nlohmann_json_FOUND)
     add_subdirectory(lib/json)
 endif()
 
-set(Boost_USE_STATIC_LIBS ${BOOST_STATIC})
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME ${USE_STATIC_RUNTIME})
-
-set(Boost_ADDITIONALVERSION "1.51" "1.51.0")
-find_package(Boost COMPONENTS system filesystem regex REQUIRED)
-
 set(GLEW_USE_STATIC_LIBS ${GLEW_STATIC})
 find_package(GLEW REQUIRED)
 
@@ -384,6 +373,10 @@ if(WINGETOPT)
     add_subdirectory(lib/wingetopt)
 endif()
 
+##
+# ICU
+##
+find_package(ICU REQUIRED COMPONENTS uc dt)
 
 ##
 # Doxygen docs
@@ -443,6 +436,8 @@ else()
     set(COLOBOT_DATA_DIR ${COLOBOT_INSTALL_DATA_DIR})
     set(COLOBOT_I18N_DIR ${COLOBOT_INSTALL_I18N_DIR})
 endif()
+
+include(cmake/dependencies.cmake)
 
 # Subdirectory with sources
 add_subdirectory(src)

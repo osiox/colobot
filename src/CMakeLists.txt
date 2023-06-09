@@ -4,6 +4,7 @@ set(CMAKE_CXX_FLAGS_RELEASE ${COLOBOT_CXX_FLAGS_RELEASE})
 set(CMAKE_CXX_FLAGS_DEBUG ${COLOBOT_CXX_FLAGS_DEBUG})
 
 # Subdirectories
+add_subdirectory(core)
 add_subdirectory(CBot)
 
 if(TOOLS)
@@ -80,8 +81,6 @@ add_library(colobotbase STATIC
     common/settings.cpp
     common/settings.h
     common/singleton.h
-    common/stringutils.cpp
-    common/stringutils.h
     common/timeutils.cpp
     common/timeutils.h
     common/thread/worker_thread.h
@@ -485,6 +484,7 @@ target_include_directories(colobotbase PUBLIC
 
 # Main libraries
 target_link_libraries(colobotbase PUBLIC
+    colobot_core
     CBot
     localename
     SDL2::Core
@@ -494,11 +494,9 @@ target_link_libraries(colobotbase PUBLIC
     PNG::PNG
     GLEW::GLEW
     glm::glm
-    Boost::headers
-    Boost::filesystem
-    Boost::regex
     PhysFS::PhysFS
     SndFile::sndfile
+    simpleini
     nlohmann_json::nlohmann_json
 )
 

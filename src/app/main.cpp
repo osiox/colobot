@@ -45,7 +45,7 @@
 
 #include <memory>
 #include <vector>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 /**
 \mainpage
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
     #if DEV_BUILD
         logFileName = "log.txt";
     #else
-        boost::filesystem::create_directories(systemUtils->GetSaveDir());
+        std::filesystem::create_directories(systemUtils->GetSaveDir());
         logFileName = systemUtils->GetSaveDir() + "/log.txt";
     #endif
     FILE* logFile = fopen(logFileName.c_str(), "w");

@@ -8,7 +8,7 @@ After installing Developer Command Line Tools, you should have basic tools like 
 ```
 And then:
 ```bash
-  brew install cmake sdl2 sdl2_image sdl2_ttf boost glew physfs flac libsndfile libvorbis vorbis-tools gettext libicns librsvg wget xmlstarlet
+  brew install cmake sdl2 sdl2_image sdl2_ttf icu4c glew physfs flac libsndfile libvorbis vorbis-tools gettext libicns librsvg wget xmlstarlet
 ```
 Gettext is installed in separate directory without adding the files to system path, so in order to get it working normally, you should call also:
 ```bash
@@ -22,6 +22,12 @@ If you've installed everything correctly, the simple way of compiling Colobot wi
   cd colobot/build
   cmake -DOPENAL_LIBRARY=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenAL.framework/OpenAL.tbd ../
   make
+
+If you encounter a problem with finding ICU library, try adding following argument to cmake call:
+
+  -DICU_ROOT=/usr/local/opt/icu4c
+
+This assumes that brew has installed icu into `/usr/local/opt/icu4c`.
 ```
 
 You can then build a Colobot drag-n-drop package

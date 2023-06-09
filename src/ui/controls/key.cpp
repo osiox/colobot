@@ -21,7 +21,7 @@
 #include "ui/controls/key.h"
 
 #include "common/global.h"
-#include "common/stringutils.h"
+#include "core/stringutils.h"
 
 #include "graphics/core/renderers.h"
 #include "graphics/core/transparency.h"

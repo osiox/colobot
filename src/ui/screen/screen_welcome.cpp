@@ -21,7 +21,7 @@
 
 #include "app/app.h"
 
-#include "common/stringutils.h"
+#include "core/stringutils.h"
 
 #include "graphics/core/material.h"
 
