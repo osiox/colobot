@@ -67,26 +67,42 @@ cxx = meson.get_compiler('cpp')
 cmake = import('cmake')
 fs = import('fs')
 
-opengl_dep = dependency('opengl', version: '>=1.4')
+if host_machine.system() == 'windows'
+  opengl_dep = cxx.find_library('opengl32')
+else
+  # Maybe should use 'gl' instead ??
+  opengl_dep = dependency('opengl', version: '>=1.4')
+endif
+# TODO Patch it to install correctly to colobot dir?
+zlib_dep = dependency('zlib')
 # XXX Probably not correct, if we use our own libpng while using system libraries that depend on system libpng...
 # png_proj = subproject('libpng')
 # png_dep = png_proj.get_variable('libpng_dep')
 png_dep = dependency('libpng', version: '>=1.2')
 # sdl2_proj = subproject('sdl2')
 # sdl2_dep = sdl2_proj.get_variable('sdl2_dep')
-sdl2_dep = dependency('SDL2', fallback: 'sdl2')
+sdl2_dep = dependency('SDL2', 'sdl2', fallback: 'sdl2')
 # sdl2_image_proj = subproject('sdl2_image')
 # sdl2_image_dep = sdl2_image_proj.get_variable('sdl2_image_dep')
-sdl2_image_dep = dependency('SDL2_image', fallback: 'sdl2_image')
+sdl2_image_dep = dependency('SDL2_image', 'sdl2_image', fallback: 'sdl2_image')
+
+# TODO Patch it to install correctly to colobot dir ?
+freetype2_dep = dependency('freetype2')
 # sdl2_ttf_proj = subproject('sdl2_ttf')
 # sdl2_ttf_dep = sdl2_ttf_proj.get_variable('sdl2_ttf_dep')
-sdl2_ttf_dep = dependency('SDL2_ttf', fallback: 'sdl2_ttf')
+sdl2_ttf_dep = dependency('SDL2_ttf', 'sdl2_ttf', fallback: 'sdl2_ttf')
 # physfs_proj = subproject('physfs')
 # physfs_dep = physfs_proj.get_variable('physfs_dep')
 physfs_dep = dependency('physfs')
 # XXX Subproject does not seem to work correctly on linux, so make sure to install libglew-dev!
 glew_dep = dependency('glew')
 sndfile_dep = dependency('sndfile')
+
+# TODO Patch it to install correctly to colobot dir ?
+# Note - Needed by icu, fallback is for windows (as can be guessed from the name)
+dl_dep = dependency('dl', fallback: 'dlfcn-win32')
+
+# TODO Patch icu for windows, to find python 3 correctly
 icu_uc_dep = dependency('icu-uc')
 
 if get_option('openal_sound')
