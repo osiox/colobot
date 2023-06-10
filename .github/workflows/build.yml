@@ -141,10 +141,10 @@ jobs:
       with:
         arch: ${{ matrix.arch }}
     - name: Install Colobot dependencies
-      uses: lukka/run-vcpkg@v7
+      uses: lukka/run-vcpkg@v11
       with:
         setupOnly: true
-        vcpkgGitCommitId: '69efe9cc2df0015f0bb2d37d55acde4a75c9a25b'
+        vcpkgGitCommitId: 'a960fde0b60b6392d70375fe513dfa7eb083cc3a'
         vcpkgTriplet: ${{ matrix.vcpkg_triplet }}
         # SHA-256 hash of the vcpkg.json file, recalculated automatically when it changes
         appendedCacheKey: ${{ hashFiles( '**/vcpkg.json' ) }}
