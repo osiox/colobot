@@ -18,27 +18,20 @@ generate_pot_cmd = custom_target(
     command: [xgettext_cmd, '@INPUT@', '--output=@OUTPUT@', '--no-wrap', '--no-location', '--keyword=TR']
 )
 
-# NOTE: This is probably not needed at all if we do not add this file into git
-#
-# XXX Assuming that if we compile with MSVC then we can't use 'sh' and that we can use it otherwise
-if cc.get_id() == 'msvc'
-    # TODO Implement this
-else
-    _update_pot_script = meson.current_source_dir() / 'update_pot.py'
+_update_pot_script = meson.current_source_dir() / 'update_pot.py'
 
-    update_pot = custom_target(
-        'update_pot',
-        input: generate_pot_cmd,
-        output: _potFile,
-        depend_files: _update_pot_script,
-        command: [
-            python3_exe,
-            _update_pot_script,
-            '@INPUT@',
-            '@OUTPUT@'
-        ]
-    )
-endif
+update_pot = custom_target(
+    'update_pot',
+    input: generate_pot_cmd,
+    output: _potFile,
+    depend_files: _update_pot_script,
+    command: [
+        python3_exe,
+        _update_pot_script,
+        '@INPUT@',
+        '@OUTPUT@'
+    ]
+)
 
 _src = [
     'cs.po',

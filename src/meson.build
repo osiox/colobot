@@ -475,8 +475,8 @@ _deps = [
     localename_dep,
 ]
 
-if is_variable('winegetopt_dep')
-    _deps += winegetopt_dep
+if is_variable('wingetopt_dep')
+    _deps += wingetopt_dep
 endif
 
 if is_variable('openal_dep')
@@ -519,7 +519,12 @@ int_libcolobotbase_dep = declare_dependency(
     dependencies: _deps
 )
 
-sdl2_main_dep = cxx.find_library('SDL2main')
+# Probably not only windows - should be done for everyone. If can't find_library then try dependency.
+if host_machine.system() == 'windows'
+  sdl2_main_dep = dependency('sdl2main')
+else
+  sdl2_main_dep = cxx.find_library('SDL2main')
+endif
 
 executable(
     'colobot',

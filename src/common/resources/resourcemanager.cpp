@@ -22,7 +22,7 @@
 
 #include "common/config.h"
 
-#if PLATFORM_WINDOWS
+#if defined(PLATFORM_WINDOWS)
     #include "common/system/system_windows.h"
 #endif
 

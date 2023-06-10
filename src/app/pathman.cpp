@@ -80,7 +80,7 @@ const std::string& CPathManager::GetSavePath()
 
 std::string CPathManager::VerifyPaths()
 {
-    #if PLATFORM_WINDOWS
+    #if defined(PLATFORM_WINDOWS)
     std::filesystem::path dataPath(CSystemUtilsWindows::UTF8_Decode(m_dataPath));
     #else
     std::filesystem::path dataPath(m_dataPath);
@@ -93,7 +93,7 @@ std::string CPathManager::VerifyPaths()
             std::string("Please check your installation, or supply a valid data directory by -datadir option.");
     }
 
-    #if PLATFORM_WINDOWS
+    #if defined(PLATFORM_WINDOWS)
     std::filesystem::path langPath(CSystemUtilsWindows::UTF8_Decode(m_langPath));
     #else
     std::filesystem::path langPath(m_langPath);
@@ -103,7 +103,7 @@ std::string CPathManager::VerifyPaths()
         GetLogger()->Warn("Language path '%s' is invalid, assuming translation files not installed\n", m_langPath.c_str());
     }
 
-    #if PLATFORM_WINDOWS
+    #if defined(PLATFORM_WINDOWS)
     std::filesystem::create_directories(CSystemUtilsWindows::UTF8_Decode(m_savePath));
     std::filesystem::create_directories(CSystemUtilsWindows::UTF8_Decode(m_savePath+"/mods"));
     #else
@@ -183,14 +183,14 @@ std::vector<std::string> CPathManager::FindModsInDir(const std::string &dir) con
     std::vector<std::string> ret;
     try
     {
-        #if PLATFORM_WINDOWS
+        #if defined(PLATFORM_WINDOWS)
         std::filesystem::directory_iterator iterator(CSystemUtilsWindows::UTF8_Decode(dir));
         #else
         std::filesystem::directory_iterator iterator(dir);
         #endif
         for(; iterator != std::filesystem::directory_iterator(); ++iterator)
         {
-            #if PLATFORM_WINDOWS
+            #if defined(PLATFORM_WINDOWS)
             ret.push_back(CSystemUtilsWindows::UTF8_Encode(iterator->path().wstring()));
             #else
             ret.push_back(iterator->path().string());

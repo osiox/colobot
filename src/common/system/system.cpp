@@ -37,7 +37,8 @@
 #include <algorithm>
 #include <thread>
 
-#include <SDL2/SDL.h>
+// Warning! Probably should be SDL2/SDL.h, but that will not work with current meson wrap!
+#include <SDL.h>
 
 std::unique_ptr<CSystemUtils> CSystemUtils::Create()
 {

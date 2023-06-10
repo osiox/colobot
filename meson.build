@@ -78,6 +78,7 @@ zlib_dep = dependency('zlib')
 # XXX Probably not correct, if we use our own libpng while using system libraries that depend on system libpng...
 # png_proj = subproject('libpng')
 # png_dep = png_proj.get_variable('libpng_dep')
+# TODO fs.copyfile needs to be added to libpng sources, to create dependency
 png_dep = dependency('libpng', version: '>=1.2')
 # sdl2_proj = subproject('sdl2')
 # sdl2_dep = sdl2_proj.get_variable('sdl2_dep')
@@ -129,8 +130,6 @@ colobot_data_proj = subproject('colobot-data', default_options: [
 if cc.get_id() == 'msvc'
     # TODO Bigger stack size and other MSVC specific stuff
     wingetopt_dep = dependency('wingetopt')
-
-    deps += [ winegetopt_dep ]
 endif
 
 # TODO Doxygen
