@@ -2,7 +2,8 @@ project('colobot-gold', ['c', 'cpp'],
     version: '0.2.0',
     default_options: [
         'cpp_std=c++17'
-    ]
+    ],
+    meson_version: '>=1.1.0'
 )
 
 python3_exe = find_program('python3')
@@ -67,17 +68,30 @@ cmake = import('cmake')
 fs = import('fs')
 
 opengl_dep = dependency('opengl', version: '>=1.4')
-sdl2_dep = dependency('SDL2')
-sdl2_image_dep = dependency('SDL2_image')
-sdl2_ttf_dep = dependency('SDL2_ttf')
-png_dep = dependency('PNG', version: '>=1.2')
+# XXX Probably not correct, if we use our own libpng while using system libraries that depend on system libpng...
+# png_proj = subproject('libpng')
+# png_dep = png_proj.get_variable('libpng_dep')
+png_dep = dependency('libpng', version: '>=1.2')
+# sdl2_proj = subproject('sdl2')
+# sdl2_dep = sdl2_proj.get_variable('sdl2_dep')
+sdl2_dep = dependency('SDL2', fallback: 'sdl2')
+# sdl2_image_proj = subproject('sdl2_image')
+# sdl2_image_dep = sdl2_image_proj.get_variable('sdl2_image_dep')
+sdl2_image_dep = dependency('SDL2_image', fallback: 'sdl2_image')
+# sdl2_ttf_proj = subproject('sdl2_ttf')
+# sdl2_ttf_dep = sdl2_ttf_proj.get_variable('sdl2_ttf_dep')
+sdl2_ttf_dep = dependency('SDL2_ttf', fallback: 'sdl2_ttf')
+# physfs_proj = subproject('physfs')
+# physfs_dep = physfs_proj.get_variable('physfs_dep')
 physfs_dep = dependency('physfs')
-# TODO Optional static ??
+# XXX Subproject does not seem to work correctly on linux, so make sure to install libglew-dev!
 glew_dep = dependency('glew')
-# TODO Optional ???
-openal_dep = dependency('openal')
 sndfile_dep = dependency('sndfile')
 icu_uc_dep = dependency('icu-uc')
+
+if get_option('openal_sound')
+  openal_dep = dependency('openal')
+endif
 
 # TODO Switch to c++20 and use built-in span ? (currently not used)
 #gsl_dep = dependency('microsoft_gsl')

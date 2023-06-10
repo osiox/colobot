@@ -7,7 +7,7 @@
             "name": "freetype",
             "default-features": false
         },
-	"icu",
+        "icu",
         "glew",
         "gettext",
         "libogg",

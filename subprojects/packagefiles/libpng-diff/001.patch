@@ -1,0 +1,86 @@
+diff -Naur libpng-1.6.39/meson.build libpng-patch/meson.build
+--- libpng-1.6.39/meson.build	2023-05-08 05:40:32.000000000 +0200
++++ libpng-patch/meson.build	2023-06-10 22:35:05.872823769 +0200
+@@ -2,7 +2,7 @@
+   'libpng',
+   'c',
+   version: '1.6.39', license: 'libpng',
+-  meson_version: '>=0.50.0',
++  meson_version: '>=1.1.0'
+ )
+ 
+ png_versions = meson.project_version().split('.')
+@@ -85,30 +85,33 @@
+   c_args += '-DPNG_INTEL_SSE_OPT=1'
+ endif
+ 
++do_install = get_option('default_library') != 'static' or not meson.is_subproject()
++
+ libpng = library(
+   png_libname,
+   png_src,
+   version: png_libversion,
+   dependencies: libpng_deps,
+   c_args: c_args,
+-  install: true,
++  install: do_install,
++  install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
+ )
+ 
+ pngincsubdir = 'lib' + png_libname
+ pngincludedir = get_option('includedir') / pngincsubdir
+ 
+-pkglibconf = configure_file(
+-  input: 'scripts/pnglibconf.h.prebuilt',
+-  output: 'pnglibconf.h',
+-  copy: true,
+-)
++fs = import('fs')
+ 
+-install_headers(
+-  'png.h',
+-  'pngconf.h',
+-  pkglibconf,
+-  subdir: pngincsubdir,
+-)
++pkglibconf = fs.copyfile('scripts/pnglibconf.h.prebuilt', 'pnglibconf.h')
++
++if get_option('colobot_install_headers')
++ install_headers(
++   'png.h',
++   'pngconf.h',
++   pkglibconf,
++   subdir: pngincsubdir,
++ )
++endif
+ 
+ cdata = configuration_data()
+ cdata.set('prefix', get_option('prefix'))
+@@ -126,7 +129,7 @@
+   output: 'libpng16.pc',
+   configuration: cdata,
+   install_dir: get_option('libdir') / 'pkgconfig',
+-  install: true,
++  install: get_option('colobot_install_pkgconfig'),
+ )
+ 
+ # FIXME: this should be a symlink to libpng16.pc
+@@ -135,7 +138,7 @@
+   output: 'libpng.pc',
+   configuration: cdata,
+   install_dir: get_option('libdir') / 'pkgconfig',
+-  install: true,
++  install: get_option('colobot_install_pkgconfig'),
+ )
+ 
+ libpng_dep = declare_dependency(
+diff -Naur libpng-1.6.39/meson.options libpng-patch/meson.options
+--- libpng-1.6.39/meson.options	1970-01-01 01:00:00.000000000 +0100
++++ libpng-patch/meson.options	2023-06-10 22:33:44.472982598 +0200
+@@ -0,0 +1,6 @@
++# XXX Hackish way to put subproject libraries inside the same directory
++option('colobot_lib_subdir', type: 'string', yield: true)
++
++# XXX Hackish way to control installation of headers and other non-shared-library files
++option('colobot_install_headers', type: 'boolean', value: false, yield: true)
++option('colobot_install_pkgconfig', type: 'boolean', value: false, yield: true)

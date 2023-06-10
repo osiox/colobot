@@ -1,0 +1,13 @@
+[wrap-file]
+directory = libsndfile-1.2.0
+source_url = https://github.com/libsndfile/libsndfile/releases/download/1.2.0/libsndfile-1.2.0.tar.xz
+source_filename = libsndfile-1.2.0.tar.xz
+source_hash = 0e30e7072f83dc84863e2e55f299175c7e04a5902ae79cfb99d4249ee8f6d60a
+patch_filename = libsndfile_1.2.0-1_patch.zip
+patch_url = https://wrapdb.mesonbuild.com/v2/libsndfile_1.2.0-1/get_patch
+patch_hash = fbf727da8520698a9a39c685b710020168be4e06571dd18ac80a29ae7efb22d7
+source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/libsndfile_1.2.0-1/libsndfile-1.2.0.tar.xz
+diff_files = libsndfile-diff/001.patch
+
+[provide]
+sndfile = libsndfile_dep

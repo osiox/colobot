@@ -1,0 +1,25 @@
+diff -Naur SDL2_ttf-2.20.1/meson.build SDL2_ttf-patch/meson.build
+--- SDL2_ttf-2.20.1/meson.build	2022-12-20 14:14:36.000000000 +0100
++++ SDL2_ttf-patch/meson.build	2023-06-10 20:54:01.098440562 +0200
+@@ -17,11 +17,15 @@
+ freetype_dep = dependency('freetype2')
+ sdl2_dep = dependency('sdl2')
+ 
++do_install = get_option('default_library') != 'static' or not meson.is_subproject()
++
+ sdl2_ttf = library(
+   'sdl2_ttf',
+   'SDL_ttf.c',
+   c_args: c_args,
+   dependencies: [freetype_dep, m_dep, sdl2_dep],
++  install: do_install,
++  install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
+ )
+ 
+ depinc = include_directories('.')
+diff -Naur SDL2_ttf-2.20.1/meson.options SDL2_ttf-patch/meson.options
+--- SDL2_ttf-2.20.1/meson.options	1970-01-01 01:00:00.000000000 +0100
++++ SDL2_ttf-patch/meson.options	2023-06-10 20:52:56.250310657 +0200
+@@ -0,0 +1,2 @@
++# XXX Hackish way to put subproject libraries inside the same directory
++option('colobot_lib_subdir', type: 'string', yield: true)

@@ -1,0 +1,50 @@
+diff -Naur glew-2.2.0/meson.build glew-patch/meson.build
+--- glew-2.2.0/meson.build	2022-10-04 08:30:34.000000000 +0200
++++ glew-patch/meson.build	2023-06-10 23:12:58.178855305 +0200
+@@ -82,6 +82,8 @@
+ 
+ glew_include = include_directories('include')
+ 
++do_install = get_option('default_library') != 'static' or not meson.is_subproject()
++
+ # The windows version shoould not have a version set
+ libglew = library(
+   name,
+@@ -92,15 +94,18 @@
+   dependencies: [dep_gl, dep_egl, dep_glu],
+   soversion: host_system == 'windows' ? '' : meson.project_version().split('.')[0],
+   version: meson.project_version(),
+-  install: true,
++  install: do_install,
++  install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
+ )
+ 
+-install_headers(
+-  'include/GL/wglew.h',
+-  'include/GL/glew.h',
+-  'include/GL/glxew.h',
+-  subdir: 'GL',
+-)
++if get_option('colobot_install_headers')
++  install_headers(
++    'include/GL/wglew.h',
++    'include/GL/glew.h',
++    'include/GL/glxew.h',
++    subdir: 'GL',
++  )
++endif
+ 
+ glew_dep = declare_dependency(
+   link_with: libglew,
+diff -Naur glew-2.2.0/meson_options.txt glew-patch/meson_options.txt
+--- glew-2.2.0/meson_options.txt	2022-10-04 08:30:34.000000000 +0200
++++ glew-patch/meson_options.txt	2023-06-10 23:12:10.035447970 +0200
+@@ -1,2 +1,8 @@
++# XXX Hackish way to put subproject libraries inside the same directory
++option('colobot_lib_subdir', type: 'string', yield: true)
++
++# XXX Hackish way to control installation of headers and other non-shared-library files
++option('colobot_install_headers', type: 'boolean', value: false, yield: true)
++
+ option('egl', type : 'feature', description : 'build support for egl')
+ option('glu', type : 'feature', description : 'build support for glu')

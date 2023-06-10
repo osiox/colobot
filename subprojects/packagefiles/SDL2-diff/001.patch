@@ -1,0 +1,30 @@
+diff -Naur SDL2-2.26.5/meson.build SDL2-patch/meson.build
+--- SDL2-2.26.5/meson.build	2023-04-10 15:43:16.000000000 +0200
++++ SDL2-patch/meson.build	2023-06-10 20:43:51.771142310 +0200
+@@ -1111,7 +1111,7 @@
+     main_sources,
+     include_directories : core_inc,
+     c_args : [core_args, main_c_args],
+-    install : do_install,
++    install : false,
+ )
+ 
+ if cc.get_argument_syntax() == 'msvc'
+@@ -1137,6 +1137,7 @@
+     dependencies : deps,
+     override_options : ['c_std=none'],
+     install : do_install,
++    install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
+     gnu_symbol_visibility: 'hidden',
+ )
+ 
+diff -Naur SDL2-2.26.5/meson_options.txt SDL2-patch/meson_options.txt
+--- SDL2-2.26.5/meson_options.txt	2023-04-10 15:43:16.000000000 +0200
++++ SDL2-patch/meson_options.txt	2023-06-10 20:39:32.418847984 +0200
+@@ -1,3 +1,6 @@
++# XXX Hackish way to put subproject libraries inside the same directory
++option('colobot_lib_subdir', type: 'string', yield: true)
++
+ option(
+     'test',
+     type : 'boolean',

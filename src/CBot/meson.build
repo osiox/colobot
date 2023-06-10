@@ -167,7 +167,7 @@ _libcbot = library(
     include_directories: '..',
     # TODO Do not install if static ?
     install: true,
-    install_dir: get_option('libdir') / meson.project_name() # TODO Other platforms ?
+    install_dir: get_option('libdir') / get_option('colobot_lib_subdir') # TODO Other platforms ?
 )
 
 int_libcbot_dep = declare_dependency(

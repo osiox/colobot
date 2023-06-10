@@ -1,0 +1,14 @@
+# XXX Hackish way to put subproject libraries inside the same directory
+option('colobot_lib_subdir', type: 'string', value: 'colobot-gold')
+
+option('openal_sound',        type: 'boolean', value: true,  description: 'Build OpenAL sound support')
+# Portable saves - suitable for e.g. putting the whole game on external storage and moving your saves with it
+option('portable_saves',      type: 'boolean', value: false, description: 'Portable saves')
+# ---------------------------------------------------------------
+# --- Selective static linking, probably could remove these ? ---
+# ---------------------------------------------------------------
+option('cbot_static',         type: 'boolean', value: false, description: 'Build CBot as static libary')
+option('colobot_core_static', type: 'boolean', value: false, description: 'Build colobot_core as static libary')
+# This is useful on Windows, if linking against standard GLEW dll fails
+option('glew_static',         type: 'boolean', value: false, description: 'Link statically with GLEW')
+option('sndfile_static',      type: 'boolean', value: false, description: 'Link statically with LibSndFile')

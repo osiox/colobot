@@ -495,11 +495,13 @@ if is_variable('openal_dep')
 endif
 
 if host_machine.system() == 'linux'
-    _deps += cxx.find_library('rt')
+    #_deps += cxx.find_library('rt')
     _src += 'common/system/system_linux.cpp'
+elif host_machine.system() == 'windows'
+    # TODO Do we need to do samething here ?
 endif
 
-# TODO Windows specific stuff
+# TODO Other platforms
 
 _libcolobotbase = library(
     'colobotbase',
@@ -507,7 +509,7 @@ _libcolobotbase = library(
     dependencies: _deps,
     # TODO Do not install if static ?
     install: true,
-    install_dir: get_option('libdir') / meson.project_name(), # TODO Other platforms ?
+    install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
     install_rpath: '$ORIGIN'
 )
 
@@ -525,5 +527,5 @@ executable(
     dependencies: [ sdl2_main_dep, int_libcolobotbase_dep ],
     install: true,
     install_dir: 'games', # TODO Other platforms ?
-    install_rpath: '$ORIGIN/..' / get_option('libdir') / meson.project_name()
+    install_rpath: '$ORIGIN/..' / get_option('libdir') / get_option('colobot_lib_subdir')
 )

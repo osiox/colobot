@@ -1,0 +1,33 @@
+diff -Naur SDL2_image-2.6.3/meson.build SDL2_image-patch/meson.build
+--- SDL2_image-2.6.3/meson.build	2023-04-11 21:18:54.000000000 +0200
++++ SDL2_image-patch/meson.build	2023-06-10 20:07:28.557085176 +0200
+@@ -14,6 +14,8 @@
+     extra_library_args += '-DDLL_EXPORT'
+ endif
+ 
++do_install = get_option('default_library') != 'static' or not meson.is_subproject()
++
+ # Files that are not directly tied to loaders
+ sources = files(
+   'IMG.c',
+@@ -152,6 +154,8 @@
+   c_args: full_library_args,
+   objc_args: full_library_args,
+   dependencies: deps,
++  install: do_install,
++  install_dir: get_option('libdir') / get_option('colobot_lib_subdir'), # TODO Other platforms ?
+   gnu_symbol_visibility: 'hidden',
+ )
+ 
+diff -Naur SDL2_image-2.6.3/meson_options.txt SDL2_image-patch/meson_options.txt
+--- SDL2_image-2.6.3/meson_options.txt	2023-04-11 21:18:54.000000000 +0200
++++ SDL2_image-patch/meson_options.txt	2023-06-10 20:07:28.557085176 +0200
+@@ -1,5 +1,8 @@
+ # General options
+ 
++# XXX Hackish way to put subproject libraries inside the same directory
++option('colobot_lib_subdir', type: 'string', yield: true)
++
+ option('test',
+   type: 'boolean',
+   value: true,
