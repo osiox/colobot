@@ -1,0 +1,10 @@
+[wrap-file]
+directory = libintl-0.14.4
+source_url = https://gnuwin32.sourceforge.net/downlinks/libintl-src-zip.php
+source_filename = libintl-0.14.4-src.zip
+source_hash = e51f536e6aaffdfe11f2c48280c985c18cc252264258362325816aaa127cd4da
+lead_directory_missing = true
+patch_directory = libintl-patch
+
+[provide]
+libintl = libintl_dep

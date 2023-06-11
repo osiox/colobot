@@ -127,9 +127,14 @@ colobot_data_proj = subproject('colobot-data', default_options: [
     f'install_data_dir=@COLOBOT_DATA_DIR@'
 ])
 
-if cc.get_id() == 'msvc'
+#if cc.get_id() == 'msvc'
+if host_machine.system() == 'windows'
     # TODO Bigger stack size and other MSVC specific stuff
     wingetopt_dep = dependency('wingetopt')
+    libintl_dep = dependency('libintl')
+else
+    wingetopt_dep = dependency('', required: false)
+    libintl_dep = dependency('', required: false)
 endif
 
 # TODO Doxygen

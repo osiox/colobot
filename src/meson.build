@@ -473,11 +473,11 @@ _deps = [
     sndfile_dep,
     simpleini_dep,
     localename_dep,
-]
 
-if is_variable('wingetopt_dep')
-    _deps += wingetopt_dep
-endif
+    # Windows only
+    wingetopt_dep,
+    libintl_dep,
+]
 
 if is_variable('openal_dep')
     _src += [

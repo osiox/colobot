@@ -1,0 +1,2 @@
+# XXX Hackish way to put subproject libraries inside the same directory
+option('colobot_lib_subdir', type: 'string', yield: true)
