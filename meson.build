@@ -131,7 +131,11 @@ colobot_data_proj = subproject('colobot-data', default_options: [
 if host_machine.system() == 'windows'
     # TODO Bigger stack size and other MSVC specific stuff
     wingetopt_dep = dependency('wingetopt')
-    libintl_dep = dependency('libintl')
+	
+	# I tried to wrap this one in a subproject, but did not succeed yet - so just install this from https://gnuwin32.sourceforge.net/packages/gettext.htm
+	# Then add the directory where you installed it to CMAKE_PREFIX_PATH environment variable and let meson + cmake combo find it
+	# If it works lol...
+    libintl_dep = dependency('libintl', allow_fallback: false)
 else
     wingetopt_dep = dependency('', required: false)
     libintl_dep = dependency('', required: false)
